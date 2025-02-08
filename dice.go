@@ -1,28 +1,37 @@
 package yatzy
 
+import (
+	"gioui.org/widget"
+	"golang.org/x/exp/rand"
+)
+
 type Dice struct {
-	Key         string
-	Value       int
-	KeyValueMap map[string]int
-	Selected    bool
+	Key      string
+	Value    int
+	Widget   *widget.Clickable
+	Selected bool
 }
 
-func getDiceMap(value int) map[string]int {
-	diceMap := make(map[string]int)
+func GetRandomValue() int {
+	return rand.Intn(6-1) + 1
+}
+
+func GetKey(value int) string {
+	str := ""
 	switch value {
 	case 1:
-		diceMap["\n . \n"] = 1
+		str = "  .  "
 	case 2:
-		diceMap["  .\n\n.  "] = 2
+		str = "    .\n\n.    "
 	case 3:
-		diceMap[".  \n . \n  ."] = 3
+		str = ".    \n  .  \n    ."
 	case 4:
-		diceMap[". .\n\n. ."] = 4
+		str = ".    .\n\n.    ."
 	case 5:
-		diceMap[". .\n . \n. ."] = 5
+		str = ".    .\n . \n.    ."
 	case 6:
-		diceMap[". .\n. .\n. ."] = 6
+		str = ".    .\n.    .\n.    ."
 	}
 
-	return diceMap
+	return str
 }
