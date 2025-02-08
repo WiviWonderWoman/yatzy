@@ -2,7 +2,10 @@ module github.com/WiviWonderWoman/yatzy
 
 go 1.23.1
 
-require gioui.org v0.8.0
+require (
+	gioui.org v0.8.0
+	github.com/matryer/is v1.4.1
+)
 
 require (
 	gioui.org/shader v1.0.8 // indirect
