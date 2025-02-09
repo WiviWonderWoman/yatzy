@@ -22,10 +22,11 @@ type (
 
 // UI holds all our app state
 type UI struct {
-	window *app.Window
-	theme  *material.Theme
-	dices  []*widget.Clickable
-	values []string
+	window     *app.Window
+	theme      *material.Theme
+	dices      []*widget.Clickable
+	values     []string
+	rollButton *widget.Clickable
 }
 
 // NewUI creates and initializes a new UI
@@ -40,9 +41,10 @@ func NewUI() *UI {
 	}
 
 	return &UI{
-		theme:  material.NewTheme(),
-		dices:  dices,
-		values: values,
+		theme:      material.NewTheme(),
+		dices:      dices,
+		values:     values,
+		rollButton: &widget.Clickable{},
 	}
 }
 
@@ -53,13 +55,19 @@ func (ui *UI) createDiceButton(value string, clickable *widget.Clickable) materi
 	btn.Inset.Bottom = unit.Dp(10)
 	btn.TextSize = 15.0
 	btn.Font.Weight = font.Black
-	btn.Background = ui.theme.Palette.ContrastBg
+	// btn.Background = ui.theme.Palette.ContrastBg
 	btn.CornerRadius = unit.Dp(8)
 	return btn
 }
 
-// layoutDiceButtons creates the layout for all dice buttons
-func (ui *UI) layoutDiceButtons(gtx C) D {
+// createRollButton creates a styled button
+func (ui *UI) createRollButton(clickable *widget.Clickable) material.ButtonStyle {
+	btn := material.Button(ui.theme, clickable, "ROLL")
+	return btn
+}
+
+// layoutRollButton creates the layout for button
+func (ui *UI) layoutRollButton(gtx C) D {
 	// Create buttons
 	btns := make([]material.ButtonStyle, 0, 5)
 	for i := range ui.dices {
@@ -88,20 +96,31 @@ func (ui *UI) layoutDiceButtons(gtx C) D {
 	}.Layout(gtx, children...)
 }
 
+// layoutDiceButtons creates the layout for all dice buttons
+func (ui *UI) layoutDiceButtons(gtx C) D {
+	btn := ui.createRollButton(ui.rollButton)
+	return btn.Layout(gtx)
+}
+
 // layout handles the main layout of the app
 func (ui *UI) layout(gtx C) D {
+	margins := layout.Inset{
+		Top:    unit.Dp(25),
+		Bottom: unit.Dp(25),
+		Right:  unit.Dp(35),
+		Left:   unit.Dp(35),
+	}
 	return layout.Flex{
 		Axis:    layout.Vertical,
 		Spacing: layout.SpaceEnd,
 	}.Layout(gtx,
 		layout.Rigid(
 			func(gtx C) D {
-				margins := layout.Inset{
-					Top:    unit.Dp(25),
-					Bottom: unit.Dp(25),
-					Right:  unit.Dp(35),
-					Left:   unit.Dp(35),
-				}
+				return margins.Layout(gtx, ui.layoutRollButton)
+			},
+		),
+		layout.Rigid(
+			func(gtx C) D {
 				return margins.Layout(gtx, ui.layoutDiceButtons)
 			},
 		),
@@ -118,6 +137,14 @@ func (ui *UI) handleEvents() error {
 		switch e := evt.(type) {
 		case app.FrameEvent:
 			gtx := app.NewContext(&ops, e)
+
+			if ui.rollButton.Clicked(gtx) {
+				for i := range ui.dices {
+					v := yatzy.GetRandomValue()
+					ui.values[i] = yatzy.GetKey(v)
+				}
+			}
+
 			ui.layout(gtx)
 			e.Frame(gtx.Ops)
 
