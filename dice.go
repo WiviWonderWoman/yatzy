@@ -13,7 +13,7 @@ type Dice struct {
 }
 
 func GetRandomValue() int {
-	return rand.Intn(6-1) + 1
+	return rand.Intn(7-1) + 1
 }
 
 func GetKey(value int) string {

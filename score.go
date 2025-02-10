@@ -1,6 +1,6 @@
 package yatzy
 
-func calculateUpperSum(upperBoxes []UpperScoreBox) int {
+func CalculateUpperSum(upperBoxes []UpperScoreBox) int {
 	sum := 0
 	for _, u := range upperBoxes {
 		sum += u.Score
@@ -13,7 +13,7 @@ func calculateUpperSum(upperBoxes []UpperScoreBox) int {
 	return sum
 }
 
-func calculateLowerSum(lowerBoxes []LowerScoreBox) int {
+func CalculateLowerSum(lowerBoxes []LowerScoreBox) int {
 	sum := 0
 	for _, u := range lowerBoxes {
 		sum += u.Score
@@ -22,6 +22,6 @@ func calculateLowerSum(lowerBoxes []LowerScoreBox) int {
 	return sum
 }
 
-func calculateTotal(upperSum int, lowerSum int) int {
+func CalculateTotal(upperSum int, lowerSum int) int {
 	return upperSum + lowerSum
 }

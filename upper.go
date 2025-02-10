@@ -1,6 +1,10 @@
 package yatzy
 
-import "strconv"
+import (
+	"strconv"
+
+	"gioui.org/widget"
+)
 
 type UpperScoreBox struct {
 	Key       string
@@ -8,9 +12,10 @@ type UpperScoreBox struct {
 	DiceValue int
 	Score     int
 	Calculate bool
+	Widget    *widget.Clickable
 }
 
-var upperBoxes = []UpperScoreBox{
+var UpperBoxes = []UpperScoreBox{
 	{
 		Key:       "Ones",
 		Value:     "",
@@ -49,7 +54,7 @@ var upperBoxes = []UpperScoreBox{
 	},
 }
 
-func (u *UpperScoreBox) countUpperValue(dices []Dice) {
+func (u *UpperScoreBox) CountUpperValue(dices []Dice) {
 	for _, d := range dices {
 		if d.Value == u.DiceValue {
 			u.Score += d.Value

@@ -46,7 +46,7 @@ func TestUpperScoreBoxCountUpperValue(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			is := is.New(t)
 
-			tt.box.countUpperValue(tt.dices)
+			tt.box.CountUpperValue(tt.dices)
 			is.Equal(tt.box.Value, tt.expected)
 			is.Equal(tt.box.Score, tt.expScore)
 		})

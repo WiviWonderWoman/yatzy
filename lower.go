@@ -2,6 +2,8 @@ package yatzy
 
 import (
 	"sort"
+
+	"gioui.org/widget"
 )
 
 type LowerScoreBox struct {
@@ -9,10 +11,11 @@ type LowerScoreBox struct {
 	Value         string
 	Score         int
 	Calculate     bool
+	Widget        *widget.Clickable
 	CalculateFunc func(dices []Dice) int
 }
 
-var lowerBoxes = []LowerScoreBox{
+var LowerBoxes = []LowerScoreBox{
 	{
 		Key:           "One Pair",
 		Value:         "",
@@ -236,7 +239,7 @@ func yatzy(dices []Dice) int {
 		}
 	}
 
-	return value * 5
+	return 50
 }
 
 func checkLength[T any](dices []T, l int) bool {

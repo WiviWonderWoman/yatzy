@@ -42,7 +42,7 @@ func TestCalculateUpperSum(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			is := is.New(t)
 
-			result := calculateUpperSum(tt.upperBoxes)
+			result := CalculateUpperSum(tt.upperBoxes)
 			is.Equal(result, tt.expected)
 		})
 	}
@@ -68,7 +68,7 @@ func TestCalculateLowerSum(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			is := is.New(t)
 
-			result := calculateLowerSum(tt.lowerBoxes)
+			result := CalculateLowerSum(tt.lowerBoxes)
 			is.Equal(result, tt.expected)
 		})
 	}
@@ -93,7 +93,7 @@ func TestCalculateTotal(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			is := is.New(t)
 
-			result := calculateTotal(tt.upperSum, tt.lowerSum)
+			result := CalculateTotal(tt.upperSum, tt.lowerSum)
 			is.Equal(result, tt.expected)
 		})
 	}
