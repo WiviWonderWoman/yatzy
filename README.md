@@ -1,4 +1,23 @@
 # Y A T Z Y !
+This is a project I'm doing just for fun and to learn [Gio UI](https://gioui.org/) a
+cross-platform GUI for Go. If yore not familiar whit YATZY read the [gameplay](#Gameplay) instructions below.
+
+## How to get set up and run
+* First you need to have[GO](https://go.dev/doc/install) installed. 
+* Clone this reposiory:
+    ```bash
+    git clone https://github.com/WiviWonderWoman/yatzy.git
+    ```
+* Navigate inside:
+    ```bash
+    cd yatzy
+    ```
+* Run application:
+    ```bash
+    go run cmd/main.go
+    ```
+___
+___
 
 ## Gameplay
 * Yatzy can be played solitaire or by any number of players. 
@@ -9,10 +28,10 @@
 * The game ends when all score boxes are used. 
 * The player with the highest total score wins the game.
 
-## Scoring
+### Scoring
 The following combinations earn points:
 
-### Upper Section:
+#### Upper Section:
 
 * Ones: The sum of all dice showing the number 1.
 * Twos: The sum of all dice showing the number 2.
@@ -23,7 +42,7 @@ The following combinations earn points:
 
 If a player manages to score at least 63 points (an average of three of each number) in the upper section, they are awarded a bonus of 50 points.
 
-### Lower Section:
+#### Lower Section:
 
 * *One Pair*: Two dice showing the same number. 
     * Score: Sum of those two dice.
