@@ -1,13 +1,9 @@
-package yatzy
+package game
 
 func CalculateUpperSum(upperBoxes []UpperScoreBox) int {
 	sum := 0
 	for _, u := range upperBoxes {
 		sum += u.Score
-	}
-
-	if sum >= 63 {
-		sum += 50
 	}
 
 	return sum

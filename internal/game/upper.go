@@ -1,4 +1,4 @@
-package yatzy
+package game
 
 import (
 	"strconv"
