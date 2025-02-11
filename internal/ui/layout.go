@@ -16,7 +16,7 @@ type (
 	D = layout.Dimensions
 )
 
-// / I main.go, uppdatera layoutScoreSection:
+// layoutScoreSection handles the layout for score sections
 func (ui *UI) layoutScoreSection(gtx C) D {
 	upperSum := game.CalculateUpperSum(ui.upperBoxes)
 	lowerSum := game.CalculateLowerSum(ui.lowerBoxes)
@@ -69,22 +69,22 @@ func (ui *UI) layoutScoreSection(gtx C) D {
 	)
 }
 
-// Add layout for upper score boxes
+// layoutUpperBoxes creates the layout for the upper section score boxes
 func (ui *UI) layoutUpperBoxes(gtx C) D {
-	children := make([]layout.FlexChild, len(ui.upperBoxes)*2-1) // För knappar och mellanrum
+	children := make([]layout.FlexChild, len(ui.upperBoxes)*2-1)
 
 	for i := range ui.upperBoxes {
 		box := &ui.upperBoxes[i]
 		btn := ui.createScoreButton(box.Key, box.Value, box.Calculate, box.Widget)
 
-		// Lägg till knappen med fast storlek
+		// Add button with fixed size
 		children[i*2] = layout.Rigid(func(gtx C) D {
-			// Sätt en fast minsta bredd på knapparna
+			// Set a fixed minimum width for buttons
 			gtx.Constraints.Min.X = gtx.Dp(200)
 			return btn.Layout(gtx)
 		})
 
-		// Lägg till mellanrum mellan knapparna (utom efter sista)
+		// Add spacing between buttons (except after the last one)
 		if i < len(ui.upperBoxes)-1 {
 			children[i*2+1] = layout.Rigid(layout.Spacer{Height: unit.Dp(4)}.Layout)
 		}
@@ -96,22 +96,22 @@ func (ui *UI) layoutUpperBoxes(gtx C) D {
 	}.Layout(gtx, children...)
 }
 
-// Add layout for lower score boxes
+// layoutLowerBoxes creates the layout for the lower section score boxes
 func (ui *UI) layoutLowerBoxes(gtx C) D {
-	children := make([]layout.FlexChild, len(ui.lowerBoxes)*2-1) // För knappar och mellanrum
+	children := make([]layout.FlexChild, len(ui.lowerBoxes)*2-1)
 
 	for i := range ui.lowerBoxes {
 		box := &ui.lowerBoxes[i]
 		btn := ui.createScoreButton(box.Key, box.Value, box.Calculate, box.Widget)
 
-		// Lägg till knappen med fast storlek
+		// Add button with fixed size
 		children[i*2] = layout.Rigid(func(gtx C) D {
-			// Sätt en fast minsta bredd på knapparna
+			// Set a fixed minimum width for buttons
 			gtx.Constraints.Min.X = gtx.Dp(200)
 			return btn.Layout(gtx)
 		})
 
-		// Lägg till mellanrum mellan knapparna (utom efter sista)
+		// Add spacing between buttons (except after the last one)
 		if i < len(ui.lowerBoxes)-1 {
 			children[i*2+1] = layout.Rigid(layout.Spacer{Height: unit.Dp(4)}.Layout)
 		}
@@ -123,7 +123,7 @@ func (ui *UI) layoutLowerBoxes(gtx C) D {
 	}.Layout(gtx, children...)
 }
 
-// Uppdatera layoutRollButton för att visa antal kast kvar
+// layoutRollButton creates a button that displays remaining rolls and handles rolling dice
 func (ui *UI) layoutRollButton(gtx C) D {
 	rollText := fmt.Sprintf("ROLL (%d)", ui.rollsLeft)
 	btn := material.Button(ui.theme, ui.rollButton, rollText)
@@ -133,36 +133,36 @@ func (ui *UI) layoutRollButton(gtx C) D {
 	return btn.Layout(gtx)
 }
 
-// Uppdaterad layoutDiceButtons för att använda Dice struct
+// layoutDiceButtons creates the layout for the dice buttons with their current values
 func (ui *UI) layoutDiceButtons(gtx C) D {
-	// Skapa en slice för alla knappar och mellanrum
+	// Create a slice for all buttons and spacing
 	children := make([]layout.FlexChild, len(ui.dices)*2-1)
 
 	for i := range ui.dices {
-		// Skapa en knapp för varje tärning
+		// Create a button for each die
 		btn := ui.createDiceButton(&ui.dices[i])
 
-		// Lägg till knappen i flexbox
+		// Add button to flexbox
 		children[i*2] = layout.Rigid(func(gtx C) D {
 			gtx.Constraints.Min = image.Point{X: 155, Y: 155}
 			gtx.Constraints.Max = image.Point{X: 155, Y: 155}
 			return btn.Layout(gtx)
 		})
 
-		// Lägg till mellanrum mellan knapparna (utom efter sista)
+		// Add spacing between buttons (except after the last one)
 		if i < len(ui.dices)-1 {
 			children[i*2+1] = layout.Rigid(layout.Spacer{Width: unit.Dp(10)}.Layout)
 		}
 	}
 
-	// Returnera flex-layouten
+	// Return the flex layout
 	return layout.Flex{
 		Axis:      layout.Horizontal,
 		Alignment: layout.Middle,
 	}.Layout(gtx, children...)
 }
 
-// layout handles the main layout of the app
+// layout manages the main application layout structure
 func (ui *UI) layout(gtx C) D {
 	margins := layout.Inset{
 		Top:    unit.Dp(20),

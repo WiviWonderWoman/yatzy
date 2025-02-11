@@ -7,21 +7,21 @@ import (
 	"github.com/WiviWonderWoman/yatzy/internal/game"
 )
 
-// First, let's extend the UI struct to include scoring
+// UI contains all ui-parts
 type UI struct {
 	Window     *app.Window
 	theme      *material.Theme
 	dices      []game.Dice
 	rollButton *widget.Clickable
 	rollsLeft  int
-	upperBoxes []game.UpperScoreBox // Add upper section scoring
-	lowerBoxes []game.LowerScoreBox // Add lower section scoring
-	totalScore int                  // Track total score
+	upperBoxes []game.UpperScoreBox
+	lowerBoxes []game.LowerScoreBox
+	totalScore int
 }
 
-// Update NewUI to initialize scoring
+// NewUI initialize a new UI
 func NewUI() *UI {
-	// Initialize dice (existing code)
+	// Initialize dices
 	dices := make([]game.Dice, 5)
 	for i := range dices {
 		dices[i] = game.Dice{

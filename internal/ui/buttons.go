@@ -12,7 +12,7 @@ import (
 	"github.com/WiviWonderWoman/yatzy/internal/game"
 )
 
-// Add scoring box button creation
+// createScoreButton creates the buttons for scores
 func (ui *UI) createScoreButton(
 	key string,
 	value string,
@@ -31,7 +31,7 @@ func (ui *UI) createScoreButton(
 		btn.Color = color.NRGBA{R: 0, G: 0, B: 0, A: 255}
 	}
 
-	// Common styling
+	// Common button styling
 	btn.TextSize = unit.Sp(14)
 	btn.CornerRadius = unit.Dp(4)
 	btn.Inset = layout.Inset{
@@ -43,8 +43,7 @@ func (ui *UI) createScoreButton(
 	return btn
 }
 
-// createDiceButton creates a styled button for a die
-// The appearance changes based on whether the die is selected (locked)
+// createDiceButton creates a styled button for a dice
 func (ui *UI) createDiceButton(dice *game.Dice) material.ButtonStyle {
 	btn := material.Button(ui.theme, dice.Widget, dice.Key)
 
