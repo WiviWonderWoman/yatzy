@@ -51,7 +51,10 @@ func (ui *UI) createDiceButton(dice *game.Dice) material.ButtonStyle {
 		// Style for locked dice (light green, semi-transparent)
 		btn.Background = color.NRGBA{R: 100, G: 200, B: 100, A: 100}
 		btn.Color = color.NRGBA{R: 0, G: 0, B: 0, A: 255}
-	} else {
+	} else if ui.rollsLeft == 3 {
+		btn = material.Button(ui.theme, dice.Widget, "")
+		btn.Background = ui.theme.Palette.Bg
+	} else if ui.rollsLeft != 3 {
 		// Style for unlocked dice (gray)
 		btn.Background = color.NRGBA{R: 220, G: 220, B: 220, A: 255}
 		btn.Color = color.NRGBA{R: 0, G: 0, B: 0, A: 255}

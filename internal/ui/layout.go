@@ -3,7 +3,10 @@ package ui
 import (
 	"fmt"
 	"image"
+	"image/color"
+	"math"
 
+	"gioui.org/font"
 	"gioui.org/layout"
 	"gioui.org/unit"
 	"gioui.org/widget/material"
@@ -43,7 +46,7 @@ func (ui *UI) layoutScoreSection(gtx C) D {
 				layout.Rigid(func(gtx C) D {
 					bonusText := fmt.Sprintf("Bonus: %d (Need %d more for bonus)",
 						bonusScore,
-						max(0, 63-upperSum))
+						int(math.Max(0, float64(63-upperSum))))
 					return material.Body2(ui.theme, bonusText).Layout(gtx)
 				}),
 			)
@@ -144,8 +147,12 @@ func (ui *UI) layoutDiceButtons(gtx C) D {
 
 		// Add button to flexbox
 		children[i*2] = layout.Rigid(func(gtx C) D {
-			gtx.Constraints.Min = image.Point{X: 155, Y: 155}
-			gtx.Constraints.Max = image.Point{X: 155, Y: 155}
+			constraint := 155
+			if ui.rollsLeft == 3 {
+				constraint = 0
+			}
+			gtx.Constraints.Min = image.Point{X: constraint, Y: constraint}
+			gtx.Constraints.Max = image.Point{X: constraint, Y: constraint}
 			return btn.Layout(gtx)
 		})
 
@@ -186,6 +193,16 @@ func (ui *UI) layout(gtx C) D {
 				return layout.Flex{
 					Axis: layout.Vertical,
 				}.Layout(gtx,
+					layout.Rigid(func(gtx C) D {
+						caption := material.Caption(ui.theme, "OBS! Only chosen dices are calculated!")
+
+						caption.Color = color.NRGBA{R: 194, G: 87, B: 83, A: 255}
+						caption.Font.Weight = font.Black
+
+						return caption.Layout(gtx)
+					}),
+					// Small space
+					layout.Rigid(layout.Spacer{Height: unit.Dp(10)}.Layout),
 					// Dice buttons
 					layout.Rigid(ui.layoutDiceButtons),
 					// Small space
