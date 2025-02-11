@@ -41,14 +41,6 @@ func (ui *UI) updateScore() {
 	ui.totalScore = upperSum + bonus + lowerSum
 }
 
-// Helper function for integer max
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 // Update handleEvents to handle score box clicks
 func (ui *UI) HandleEvents() error {
 	var ops op.Ops
@@ -72,7 +64,7 @@ func (ui *UI) HandleEvents() error {
 			// Handle lower section scoring
 			for i := range ui.lowerBoxes {
 				if ui.lowerBoxes[i].Widget.Clicked(gtx) && !ui.lowerBoxes[i].Calculate {
-					ui.lowerBoxes[i].Score = ui.lowerBoxes[i].CalculateFunc(ui.dices)
+					ui.lowerBoxes[i].Score = ui.lowerBoxes[i].CalculateFunc(getSelected(ui.dices))
 					ui.lowerBoxes[i].Value = fmt.Sprintf("%d", ui.lowerBoxes[i].Score)
 					ui.lowerBoxes[i].Calculate = true
 					ui.resetTurn()
@@ -102,4 +94,16 @@ func (ui *UI) HandleEvents() error {
 			return e.Err
 		}
 	}
+}
+
+// getSelected filters out only selected dices
+func getSelected(dices []game.Dice) []game.Dice {
+	selected := make([]game.Dice, 0, 2)
+
+	for _, d := range dices {
+		if d.Selected {
+			selected = append(selected, d)
+		}
+	}
+	return selected
 }
